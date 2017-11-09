@@ -1,6 +1,11 @@
 # fast-ai
-## notes and codes when learning ml with fast.ai
+## 一些链接:
+Git Repo: https://github.com/fastai/courses
 
+Files:
+http://files.fast.ai/data/
+
+## 关于环境设置
 对于Windows系统, 先安装cwgwin
 For windows, install cygwin first(with wget), as many scripts are in bash instead of cmd
 
@@ -29,9 +34,3 @@ dos2unix setup_instance.sh
 then finally, bash setup_p2.sh
 
 注意, 在AWS的console中, 记得把区域切换到Oregan(us-west-2), 否则看不到创建的instance的
-
-### bash小技巧：利用.bashrc使得bash每次打开是自动执行操作
-每次重新打开bash的时候，alias都没有了，又要source aws-alias.sh一遍
-想要让这些alias一直有效，可以把source aws-alias.sh这个命令加入到.bashrc中
-对于Mac OSX，由于terminal是一种login shel，会执行~/.bash_profile而不是~/.bashrc
-所以要让bash_profile自动取执行.bashrc，即在其中加入[[ -s ~/.bashrc ]] && source ~/.bashrc
