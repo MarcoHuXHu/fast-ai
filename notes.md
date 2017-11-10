@@ -27,7 +27,25 @@ Are you sure you want to continue connecting (yes/no)?
 
 这种方法要求用户必须提供自己的公钥。如果没有现成的，可以直接用ssh-keygen生成一个:  
 `$ ssh-keygen'  
-运行结束以后，在$HOME/.ssh/目录下，会新生成两个文件：id\_rsa.pub和id\_rsa。前者是你的公钥，后者是你的私钥。然后把公钥传到服务器上去
+运行结束以后，在$HOME/.ssh/目录下，会新生成两个文件：id\_rsa.pub和id\_rsa。前者是你的公钥，后者是你的私钥, 然后把公钥传到服务器上去用于登录. 
+
+比如用来添加一个用户, 先登录(以AWS Ubuntu为例, 注: 在给Ubuntu系统添加用户时, 不要添加密码)  
+`[ubuntu ~]$ sudo adduser newuser --disabled-password`  
+一路回车之后, 切换到新账户，以便使新建的文件具有正确的所有权。
+`[ubuntu ~]$ sudo su - newuser`  
+`[newuser ~]$`  
+这就表示切换过来了, 然后是创建.ssh, .ssh/authorized_keys, 并设置权限  
+```
+[newuser ~]$ mkdir .ssh
+[newuser ~]$ chmod 700 .ssh
+[newuser ~]$ touch .ssh/authorized_keys
+[newuser ~]$ chmod 600 .ssh/authorized_keys
+```
+最后vi authorized_keys, 把公钥复制过去就OK了
+以及如果要删除用户:
+`[ubuntu ~]$ sudo userdel -r olduser`
+
+
 
 ## bash小技巧：利用.bashrc
 
