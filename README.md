@@ -34,3 +34,7 @@ dos2unix setup_instance.sh
 then finally, bash setup_p2.sh
 
 注意, 在AWS的console中, 记得把区域切换到Oregan(us-west-2), 否则看不到创建的instance的
+
+## aws密钥丢失/共享
+按照默认安装，密钥储存在~/.ssh的aws-key-fast-ai.pem  
+如果有一台机器的密钥还在，可以复制到其他机器上，用这个密钥登录  
