@@ -57,13 +57,59 @@ Are you sure you want to continue connecting (yes/no)?
 
 ## tmux:
 
-tmux, 终端里的"窗口管理器", 相当于bash开多个窗口运行, 相当高效
+tmux, 终端里的"窗口管理器", 相当于bash开多个窗口运行, 相当高效.
+tmux操作除了输入命令, 还可以用快捷键执行, 通过默认前缀 `ctrl + b` 之后输入对应命令来操作:  
 
-session 会话：session是一个特定的终端组合. 输入tmux就可以打开一个新的session
+session 会话：session是一个特定的终端组合. 在bash中输入`tmux`就可以进入tmux并打开一个新的session. 
 
-window 窗口：session 中可以有不同的 window（但是同时只能看到一个 window）
+常用命令:   
+* `tmux new -s name` 打开一个名为 name 的 tmux session
+* `tmux attach -t name` 重新打开名为 name 的 tmux session
+* `tmux switch -t name` 切换进入名为 name 的 tmux session
+* `tmux list-sessions / tmux ls`列出现有的所有 session
+* `tmux detach` 离开当前开启的 session
+* `tmux kill-server` 关闭所有 session
 
-pane 面板：window 中可以有不同的 pane（可以把 window 分成不同的部分）
+常用快捷键:  
+* `d` 脱离当前会话,可暂时返回Shell界面
+* `s` 选择并切换会话；在同时开启了多个会话时使用
+* `D` 选择要脱离的会话；在同时开启了多个会话时使用
+
+window 窗口：session 中可以有不同的 window（但是同时只能看到一个 window）  
+
+常用命令:  
+* `tmux new-window` 创建一个新的 window
+* `tmux list-windows` 列出session中所有window
+* `tmux select-window -t :0-9` 根据索引0-9转到该 window
+* `tmux rename-window` 重命名当前 window
+
+常用快捷键:
+* `c` 创建新窗口
+* `&` 关闭当前窗口
+* `[0-9]` 数字键切换到指定窗口
+* `p` 切换至上一窗口(previous window)
+* `n` 切换至下一窗口(last window)
+* `l` 前后窗口间互相切换(last window)
+* `w` 通过窗口列表切换窗口
+
+pane 面板：window 中可以有不同的 pane（可以把 window 分成不同的部分）  
+
+常用命令:
+* `tmux split-window` 将 window 垂直划分为两个 pane
+* `tmux split-window -h` 将 window 水平划分为两个 pane
+* `tmux swap-pane -[UDLR]` 与指定方向的pane交换
+* `tmux select-pane -[UDLR]` 选择指定方向上的下一个 pane
+
+常用快捷键:
+* `"` 将当前面板上下分屏
+* `%` 将当前面板左右分屏
+* `x` 关闭当前分屏
+* `!` 将当前面板置于新窗口,即新建一个窗口,其中仅包含当前面板
+* `ctrl+方向键` 以1个单元格为单位移动边缘以调整当前面板大小
+* `alt+方向键` 以5个单元格为单位移动边缘以调整当前面板大小
+* `q` 显示面板编号
+* `o` 选择当前窗口中下一个面板
+
 
 
 ## upzip -q: quiet模式, 不输出文件名
