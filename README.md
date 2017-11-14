@@ -7,16 +7,17 @@ Files:
 http://files.fast.ai/data/
 
 ## 关于环境设置
-对于Windows系统, 先安装cwgwin
-For windows, install cygwin first(with wget), as many scripts are in bash instead of cmd
+对于Windows系统, 先安装cwgwin  
+For windows, install cygwin first(with wget), as many scripts are in bash instead of cmd  
 
-然后需要把python和pip装在cygwin下, 不然执行aws命令会找不到scripts
+然后需要把python和pip装在cygwin下, 不然执行aws命令会找不到scripts  
 If run pip install awscli from cygwin, it may install awscli in Window's Anaconda Python installation, instead of in Cygwin's Python (which is what you want). 
 Then, when you run aws configure, you will get an error that the aws executable can't be found. The solution is to try the following from a cygwin shell:pip uninstall awscli
 
 方法如下:
 
-通过wget安装apt-cyg
+通过wget安装apt-cyg  
+```
 wget rawgit.com/transcode-open/apt-cyg/master/apt-cyg
 install apt-cyg /bin
 用atp-cyg来安装python
@@ -24,6 +25,7 @@ apt-cyg install python
 wget https://bootstrap.pypa.io/get-pip.py
 python get-pip.py
 pip install awscli
+```
 
 如果要免费试用的话, 记得把t2的instance由t2.xlarge改成t2.micro
 以及, 在aws-alias.sh中获取实例的alias: aws-get-t2命令中的xlarge改成micro
@@ -34,4 +36,15 @@ dos2unix setup_t2.sh
 dos2unix setup_instance.sh
 then finally, bash setup_p2.sh
 
-注意, 在AWS的console中, 记得把区域切换到Oregan(us-west-2), 否则看不到创建的instance的
+注意, 在AWS的console中, 记得把区域切换到Oregan(us-west-2), 否则看不到创建的instance的  
+
+## aws密钥丢失/共享
+按照默认安装，密钥储存在~/.ssh的aws-key-fast-ai.pem  
+如果有一台机器的密钥还在，可以复制到其他机器上，用这个密钥登录.
+参见：  
+[在 AWS Linux 实例上管理用户账户]http://docs.aws.amazon.com/zh_cn/AWSEC2/latest/UserGuide/managing-users.html
+
+如果完全丢失了密钥，则需要通过另一个instance来恢复，
+参见：  
+[论坛]https://forums.aws.amazon.com/message.jspa?messageID=475034  
+[视频]http://d2930476l2fsmh.cloudfront.net/LostKeypairRecoveryOfLinuxInstance.mp4  
