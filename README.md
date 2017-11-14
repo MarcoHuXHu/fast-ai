@@ -1,6 +1,7 @@
 # fast-ai
 ## 一些链接:
-Git Repo: https://github.com/fastai/courses
+Git Repo: 
+https://github.com/fastai/courses
 
 Files:
 http://files.fast.ai/data/
