@@ -40,16 +40,15 @@ then finally, bash setup_p2.sh
 
 ## aws密钥丢失/共享
 按照默认安装, 密钥储存在~/.ssh的aws-key-fast-ai.pem  
-如果有一台机器的密钥还在, 可以复制到其他机器上, 用这个密钥登录.
-参见：  
-[在 AWS Linux 实例上管理用户账户]http://docs.aws.amazon.com/zh_cn/AWSEC2/latest/UserGuide/managing-users.html
+目前可行的方法是一台机器安装(执行setup-t2/p2.sh -> setup-instance.sh), 然后把.pem复制到其他机器上, 然后使用`chmod 400 key.pem`来设置权限, 之后便可用这个密钥登录.  
+参见:
+[在 AWS Linux 实例上管理用户账户](http://docs.aws.amazon.com/zh_cn/AWSEC2/latest/UserGuide/managing-users.html).  
 
-如果完全丢失了密钥, 则需要通过另一个instance来恢复, 
-参见：  
-[论坛]https://forums.aws.amazon.com/message.jspa?messageID=475034  
-[视频]http://d2930476l2fsmh.cloudfront.net/LostKeypairRecoveryOfLinuxInstance.mp4  
+如果完全丢失了密钥, 则需要通过另一个instance来恢复, 参见: 
+[论坛](https://forums.aws.amazon.com/message.jspa?messageID=475034)
+[视频](http://d2930476l2fsmh.cloudfront.net/LostKeypairRecoveryOfLinuxInstance.mp4)  
 
-##  利用AWS控制台来创建实例
+## 利用AWS控制台来创建实例
 
 ### AMI
 AMI(Amazon Machine Images)相当于一个系统的镜像, 类似于系统还原点. 可以使用AWS提供的默认AMI(比如AWS Linux, Ubnutu等), 包含了Linux/Ubuntu操作系统和一些软件. 也可以想Fast.ai的install一样, 连接到已有的AMI(老师给大家搭建的, 上面装了比如tmux, Jupyter Notebook, Anaconda等等). 实例引用这些AMI就相当于从当前这样一个镜像开始使用.
@@ -59,3 +58,4 @@ VPC(Virtual Private Cloud)是AWS提供的虚拟网络, 相当于云端的一个�
 
 配置时, 要给VPC设置其IPv4 CIDR, 比如: `10.0.0.0/16`, 然后建立一个Internet Gateway并与VPC进行attach. 以及配置Subnet和Route Table, 其Destination一个指向`10.0.0.0/16`(即Target为VPC的local), 另一个指向`0.0.0.0/0`(即Gateway ID, 如: igw-********). 最后检查Subnet的Netwrok ACL是否对端口Allow.
 
+创建完实例会自动生成key-pairs. 注意, 这个key-pair不能再次生成, 在Key Pairs里面create key pair会因为Permission Denied(Public Key), 而不可以用来连接实例. 
