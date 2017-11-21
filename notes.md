@@ -137,3 +137,16 @@ pane 面板：window 中可以有不同的 pane（可以把 window 分成不同�
 
 
 ## upzip -q: quiet模式, 不输出文件名
+
+## Linux下如果通过硬盘的一部分容量来给实例内存增加空间(add swap or paging space to the instance)  
+```
+sudo /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
+sudo /sbin/mkswap /var/swap.1
+sudo chmod 600 /var/swap.1
+sudo /sbin/swapon /var/swap.1
+```
+1024表示1GB, 要增大的话改变数字即可. 注意, 这一部分比正常内存要慢得多, 重启后会还原.  
+要想改为默认设置, 即重启后也有效, 在`/etc/fstab`中加入这一句(不推荐)
+```
+/var/swap.1   swap    swap    defaults        0   0
+```
