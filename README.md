@@ -59,3 +59,7 @@ VPC(Virtual Private Cloud)是AWS提供的虚拟网络, 相当于云端的一个�
 配置时, 要给VPC设置其IPv4 CIDR, 比如: `10.0.0.0/16`, 然后建立一个Internet Gateway并与VPC进行attach. 以及配置Subnet和Route Table, 其Destination一个指向`10.0.0.0/16`(即Target为VPC的local), 另一个指向`0.0.0.0/0`(即Gateway ID, 如: igw-********). 最后检查Subnet的Netwrok ACL是否对端口Allow.
 
 创建完实例会自动生成key-pairs. 注意, 这个key-pair不能再次生成, 在Key Pairs里面create key pair会因为Permission Denied(Public Key), 而不可以用来连接实例. 
+
+## 关于Jupyter Notebook
+学习中发现, Jupyter Notebook可以在Mac上运行, 甚至可以在iPhone上运行, 然而在Windows上却不行. 防火墙也全部关掉了. 看来是杀毒软件的问题. 只能用iPhone来运行了...
+
