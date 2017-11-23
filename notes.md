@@ -13,6 +13,48 @@ Anaconda是一个科学计算Python环境, 集成了常用的各种包.
 
 更新Anaconda: `conda update conda`  
 
+## Jupyter Notebook
+
+一款类似于学习笔记的工具, 将markdown与code结合在一起, 可以一边记笔记一边跑代码, 同时还可以生成和插入图表
+
+### 安装和配置:
+fast.ai给的AMI已经装好了, 如果在自己的服务器或本地上安装的话, Anaconda也自带了Jupyter Notebook, 不需要再安装.  
+配置的话, 首先进入`IPython`生成密码. 这个密码Jupyter Notebook的访问密码, 记得复制一下生成的密钥.  
+```
+$ ipython
+In [1]: from IPython.lib import passwd                                                                                   │notes.pem
+In [2]: passwd()                                                                                                         │Python 
+Enter password:                                                                                                          │Type 
+Verify password:  
+Out[2]: 'sha1:aeaec*****d2:d5************************************ec' 
+```
+退出IPython, 然后给Jupyter Notebook生成配置:  
+`$ jupyter notebook --generate-config`  
+接着生成https访问所需的密钥:  
+```
+$ mkdir certs                                                
+$ cd certs                        
+$ openssl req -x509 -nodes days 365 -newkey rsa:1024 -keyout notes.pem -out notes.pem 
+```
+然后修改Jupyter Notebook的配置: 在`~/.jupyter/jupyter_notebook_config.py`中加入:  
+```
+c = get_config()                                             
+c.NotebookApp.certfile = u'/home/ec2-user/certs/notes.pem'
+c.NotebookApp.ip = '*'                                       
+c.NotebookApp.open_browser = False              
+c.NotebookApp.password = u'sha1:aeaec*****d2:d5************************************ec'
+c.NotebookApp.port = 8888                              
+```
+
+最后, 执行`conda install nb_conda`, 这样Jupyter Notebook就可以使用conda root的kernel了.
+
+运行`Jupyter Notebook`. 然后通过https://AWS实例的IP:8888就可以进入. 注意要加`https`. 以及AWS的VPC的Security Group中加入`Inbound Rules`:  
+|Type|Protocol|Port Range|Source|
+|---|---|---|---|
+|Custom TCP Rule| TCP (6)  |8880-8899 |0.0.0.0/0|
+
+### Jupyter Notebook与防火墙的战斗
+学习中发现, Jupyter Notebook可以在Mac上运行, 甚至可以在iPhone上运行, 然而在Windows上却不行. 防火墙也全部关掉了. 看来是杀毒软件的问题. 不过好像利用https来连接的话就可以执行了诶.
 
 ## SSH
 
