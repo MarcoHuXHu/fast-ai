@@ -1,5 +1,19 @@
 # Tips - 一些学习时掌握的小技巧
 
+## Anaconda
+
+Anaconda是一个科学计算Python环境, 集成了常用的各种包.
+
+### 安装:
+下载安装文件: `wget https://repo.continuum.io/archive/Anaconda2-4.5.0-Linux-x86_64.sh`, 2-4.5.0表示为Anaconda2(基于python2, Anaconda3基于python3). 可以先去官网下载文件以获取最新的版本号. 
+
+执行安装文件: `bash Anaconda2-4.5.0-Linux-x86_64.sh`, 让bash执行刚刚wget到的.sh.  
+
+添加路径: 将`export PATH=/home/ec2-user/anaconda2/bin:$PATH`加入到~/.bashrc中, 然后`source ~/.bashrc`.  
+
+更新Anaconda: `conda update conda`  
+
+
 ## SSH
 
 SSH是一种网络协议, 用于计算机之间的加密登录, 常用的实现有OpenSSH, PuTTY.
@@ -71,13 +85,25 @@ chmod命令用于改变linux系统文件或目录的访问权限, 有两种操�
 数字有三位, 每一位为一个八进制数, 时权限代号的数字的和, 每一位数字分别表示一个权限范围, 其顺序是u, g, o
 例如: `chmod 751 file`, 即设定文件file的属性为: 给file的属主分配读、写、执行(7)的权限，给file的所在组分配读、执行(5)的权限，给其他用户分配执行(1)的权限
 
-## bash小技巧：利用.bashrc
+## VIM小技巧:
+
+### 移动:
+`Ctrl A`: Home
+`Ctrl E`: End
+
+### 查找:
+在Normal模式下按`/`进入查找模式, 然后输入要查找的字符, 按`n`为Next, `N`为Previous
+
+## bash小技巧：
+
+### 利用.bashrc
 
 每次重新打开bash的时候, alias都没有了, 又要source aws-alias.sh一遍
 想要让这些alias一直有效, 可以把source aws-alias.sh这个命令加入到.bashrc中
 对于Mac OSX, 由于terminal是一种login shel, 会执行~/.bash_profile而不是~/.bashrc
 所以要让bash_profile自动取执行.bashrc, 即在其中加入[[ -s ~/.bashrc ]] && source ~/.bashrc
 
+### upzip -q: quiet模式, 不输出文件名
 
 ## tmux:
 
@@ -136,7 +162,7 @@ pane 面板：window 中可以有不同的 pane（可以把 window 分成不同�
 
 
 
-## upzip -q: quiet模式, 不输出文件名
+
 
 ## Linux下如果通过硬盘的一部分容量来给实例内存增加空间(add swap or paging space to the instance)  
 ```
