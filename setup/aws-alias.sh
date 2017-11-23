@@ -14,6 +14,7 @@ alias fast-state='aws ec2 describe-instances --instance-ids $fastId --query "Res
 export huxhuId='i-0da06dc6ad1cfa17e'
 alias huxhu-ssh='ssh -i ~/.ssh/aws-key-huxhu-tech.pem ec2-user@ec2-34-216-5-46.us-west-2.compute.amazonaws.com'
 alias huxhu-get='echo $huxhuId'
+alias huxhu-ip='export huxhuIp=`aws ec2 describe-instances --filters "Name=instance-id,Values=$huxhuId" --query "Reservations[0].Instances[0].PublicIpAddress"` && echo $huxhuIp'
 alias huxhu-start='aws ec2 start-instances --instance-ids $huxhuId && aws ec2 wait instance-running --instance-ids $huxhuId && export huxhuIp=`aws ec2 describe-instances --filters "Name=instance-id,Values=$huxhuId" --query "Reservations[0].Instances[0].PublicIpAddress"` && echo $huxhuIp'
 alias huxhu-stop='aws ec2 stop-instances --instance-ids $huxhuId'
 alias huxhu-state='aws ec2 describe-instances --instance-ids $huxhuId --query "Reservations[0].Instances[0].State.Name"'
