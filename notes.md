@@ -145,6 +145,22 @@ chmod命令用于改变linux系统文件或目录的访问权限, 有两种操�
 对于Mac OSX, 由于terminal是一种login shel, 会执行~/.bash_profile而不是~/.bashrc
 所以要让bash_profile自动取执行.bashrc, 即在其中加入[[ -s ~/.bashrc ]] && source ~/.bashrc
 
+### 使用scp命令向服务器上传/从服务器下载文件
+
+用法和bash下的cp命令一样,  
+上传: `scp  localpath/file ubuntu@ec2-34-214-81-120.us-west-2.compute.amazonaws.com:serverpath/file`
+下载: `scp  ubuntu@ec2-34-214-81-120.us-west-2.compute.amazonaws.com:serverpath/file localpath/file `
+
+以上都是对于使用public key的情况, 对于aws这种的, 需要像ssh一样指定密钥文件,  
+即:  `scp -i ~/.ssh/key.pem file file`  
+命令比较长, 如果要alias的话, 因为要传入两个路径名作为参数, 则需要使用bash里面的`function`, 将以下命令如同alias一般, 写入.bashrc:  
+```
+functionName() {
+    command line "$1" [command line "$2" command line... 
+}
+```
+调用时, 使用`functionName param1 param2...`
+
 ### upzip -q: quiet模式, 不输出文件名
 
 ## tmux:
