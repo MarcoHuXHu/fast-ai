@@ -1,15 +1,15 @@
 echo aws-alias loaded
 
-export microId='i-0962b3128935da2ab'
-alias micro-ssh='ssh -i "~/.ssh/aws-key-micro-ai.pem" ubuntu@ec2-34-214-81-120.us-west-2.compute.amazonaws.com'
-alias micro-get='echo $microId'
-alias micro-ip='export microIp=`aws ec2 describe-instances --filters "Name=instance-id,Values=$microId" --query "Reservations[0].Instances[0].PublicIpAddress"` && echo $microIp'
-alias micro-start='aws ec2 start-instances --instance-ids $microId && aws ec2 wait instance-running --instance-ids $microId && export microIP=`aws ec2 describe-instances --filters "Name=instance-id,Values=$microId" --query "Reservations[0].Instances[0].PublicIpAddress"` && echo $microIp'
-alias micro-stop='aws ec2 stop-instances --instance-ids $microId'
-alias micro-state='aws ec2 describe-instances --instance-ids $microId --query "Reservations[0].Instances[0].State.Name"'
+export fastId='i-0962b3128935da2ab'
+alias fast-ssh='ssh -i "~/.ssh/aws-key-fast-ai.pem" ubuntu@ec2-34-214-81-120.us-west-2.compute.amazonaws.com'
+alias fast-get='echo $fastId'
+alias fast-ip='export fastIp=`aws ec2 describe-instances --filters "Name=instance-id,Values=$fastId" --query "Reservations[0].Instances[0].PublicIpAddress"` && echo $fastIp'
+alias fast-start='aws ec2 start-instances --instance-ids $fastId && aws ec2 wait instance-running --instance-ids $fastId && export fastIP=`aws ec2 describe-instances --filters "Name=instance-id,Values=$fastId" --query "Reservations[0].Instances[0].PublicIpAddress"` && echo $fastIp'
+alias fast-stop='aws ec2 stop-instances --instance-ids $fastId'
+alias fast-state='aws ec2 describe-instances --instance-ids $fastId --query "Reservations[0].Instances[0].State.Name"'
 
-micro-upload() {
-	scp -i ~/.ssh/aws-key-micro-ai.pem "$1" ubuntu@ec2-34-214-81-120.us-west-2.compute.amazonaws.com:~/upload/"$2"
+fast-upload() {
+	scp -i ~/.ssh/aws-key-fast-ai.pem "$1" ubuntu@ec2-34-214-81-120.us-west-2.compute.amazonaws.com:~/upload/"$2"
 }
 
 export huxhuId='i-0da06dc6ad1cfa17e'
@@ -27,17 +27,17 @@ huxhu-upload() {
 if [[ `uname` == *"CYGWIN"* ]]
 then
     # This is cygwin.  Use cygstart to open the notebook
-    alias aws-nb='cygstart http://$microIp:8888'
+    alias aws-nb='cygstart http://$fastIp:8888'
 fi
 
 if [[ `uname` == *"Linux"* ]]
 then
     # This is linux.  Use xdg-open to open the notebook
-    alias aws-nb='xdg-open http://$microIp:8888'
+    alias aws-nb='xdg-open http://$fastIp:8888'
 fi
 
 if [[ `uname` == *"Darwin"* ]]
 then
     # This is Mac.  Use open to open the notebook
-    alias aws-nb='open http://$microIp:8888'
+    alias aws-nb='open http://$fastIp:8888'
 fi
