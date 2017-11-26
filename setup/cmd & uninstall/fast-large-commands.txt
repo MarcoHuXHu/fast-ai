@@ -1,0 +1,20 @@
+# Connect to your instance:
+ssh -i /Users/HXH/.ssh/aws-key-fast-large.pem ubuntu@ec2-35-165-223-67.us-west-2.compute.amazonaws.com
+# Stop your instance: :
+aws ec2 stop-instances --instance-ids i-09a7a661a05f5cce9
+# Start your instance:
+aws ec2 start-instances --instance-ids i-09a7a661a05f5cce9
+# Reboot your instance:
+aws ec2 reboot-instances --instance-ids i-09a7a661a05f5cce9
+export instanceId=i-09a7a661a05f5cce9
+export subnetId=subnet-8da2d1c5
+export securityGroupId=sg-3c23de40
+export instanceUrl=ec2-35-165-223-67.us-west-2.compute.amazonaws.com
+export routeTableId=rtb-5df9ad24
+export name=fast-large
+export vpcId=vpc-9d5045fb
+export internetGatewayId=igw-956173f2
+export subnetId=subnet-8da2d1c5
+export allocAddr=eipalloc-c8ca89f5
+export assocId=eipassoc-95380baa
+export routeTableAssoc=rtbassoc-ddb876a6

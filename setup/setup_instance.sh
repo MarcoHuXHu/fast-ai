@@ -13,7 +13,7 @@ if [ -z "$ami" ] || [ -z "$instanceType" ]; then
 fi
 
 # settings
-export name="fast-large"
+export name="fast-xlarge"
 export cidr="0.0.0.0/0"
 
 hash aws 2>/dev/null
