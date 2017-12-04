@@ -1,60 +1,4 @@
-# Tips - 一些学习时掌握的小技巧
-
-## Anaconda
-
-Anaconda是一个科学计算Python环境, 集成了常用的各种包.
-
-### 安装:
-下载安装文件: `wget https://repo.continuum.io/archive/Anaconda2-4.5.0-Linux-x86_64.sh`, 2-4.5.0表示为Anaconda2(基于python2, Anaconda3基于python3). 可以先去官网下载文件以获取最新的版本号. 
-
-执行安装文件: `bash Anaconda2-4.5.0-Linux-x86_64.sh`, 让bash执行刚刚wget到的.sh.  
-
-添加路径: 将`export PATH=/home/ec2-user/anaconda2/bin:$PATH`加入到~/.bashrc中, 然后`source ~/.bashrc`.  
-
-更新Anaconda: `conda update conda`  
-
-## Jupyter Notebook
-
-一款类似于学习笔记的工具, 将markdown与code结合在一起, 可以一边记笔记一边跑代码, 同时还可以生成和插入图表
-
-### 安装和配置:
-fast.ai给的AMI已经装好了, 如果在自己的服务器或本地上安装的话, Anaconda也自带了Jupyter Notebook, 不需要再安装.  
-配置的话, 首先进入`IPython`生成密码. 这个密码Jupyter Notebook的访问密码, 记得复制一下生成的密钥.  
-```
-$ ipython
-In [1]: from IPython.lib import passwd                                                                                   │notes.pem
-In [2]: passwd()                                                                                                         │Python 
-Enter password:                                                                                                          │Type 
-Verify password:  
-Out[2]: 'sha1:aeaec*****d2:d5************************************ec' 
-```
-退出IPython, 然后给Jupyter Notebook生成配置:  
-`$ jupyter notebook --generate-config`  
-接着生成https访问所需的密钥:  
-```
-$ mkdir certs                                                
-$ cd certs                        
-$ openssl req -x509 -nodes days 365 -newkey rsa:1024 -keyout notes.pem -out notes.pem 
-```
-然后修改Jupyter Notebook的配置: 在`~/.jupyter/jupyter_notebook_config.py`中加入:  
-```
-c = get_config()                                             
-c.NotebookApp.certfile = u'/home/ec2-user/certs/notes.pem'
-c.NotebookApp.ip = '*'                                       
-c.NotebookApp.open_browser = False              
-c.NotebookApp.password = u'sha1:aeaec*****d2:d5************************************ec'
-c.NotebookApp.port = 8888                              
-```
-
-最后, 执行`conda install nb_conda`, 这样Jupyter Notebook就可以使用conda root的kernel了.
-
-运行`Jupyter Notebook`. 然后通过https://AWS实例的IP:8888就可以进入. 注意要加`https`. 以及AWS的VPC的Security Group中加入`Inbound Rules`:  
-|Type|Protocol|Port Range|Source|
-|---|---|---|---|
-|Custom TCP Rule| TCP (6)  |8880-8899 |0.0.0.0/0|
-
-### Jupyter Notebook与防火墙的战斗
-学习中发现, Jupyter Notebook可以在Mac上运行, 甚至可以在iPhone上运行, 然而在Windows上却不行. 防火墙也全部关掉了. 看来是杀毒软件的问题. 不过好像利用https来连接的话就可以执行了诶.
+# Tips - 一些学习时掌握的知识和技巧
 
 ## SSH
 
@@ -101,6 +45,8 @@ Are you sure you want to continue connecting (yes/no)?
 以及如果要删除用户:
 `[ubuntu ~]$ sudo userdel -r olduser`
 
+
+
 ## chmod
 
 chmod命令用于改变linux系统文件或目录的访问权限, 有两种操作法, 一种包含字母和符号的, 另一种纯数字
@@ -127,6 +73,8 @@ chmod命令用于改变linux系统文件或目录的访问权限, 有两种操�
 数字有三位, 每一位为一个八进制数, 时权限代号的数字的和, 每一位数字分别表示一个权限范围, 其顺序是u, g, o
 例如: `chmod 751 file`, 即设定文件file的属性为: 给file的属主分配读、写、执行(7)的权限，给file的所在组分配读、执行(5)的权限，给其他用户分配执行(1)的权限
 
+
+
 ## VIM小技巧:
 
 ### 移动:
@@ -135,6 +83,8 @@ chmod命令用于改变linux系统文件或目录的访问权限, 有两种操�
 
 ### 查找:
 在Normal模式下按`/`进入查找模式, 然后输入要查找的字符, 按`n`为Next, `N`为Previous
+
+
 
 ## bash小技巧：
 
@@ -162,6 +112,8 @@ functionName() {
 调用时, 使用`functionName param1 param2...`
 
 ### upzip -q: quiet模式, 不输出文件名
+
+
 
 ## tmux:
 
@@ -220,8 +172,6 @@ pane 面板：window 中可以有不同的 pane（可以把 window 分成不同�
 
 
 
-
-
 ## Linux下如果通过硬盘的一部分容量来给实例内存增加空间(add swap or paging space to the instance)  
 ```
 sudo /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
@@ -232,5 +182,19 @@ sudo /sbin/swapon /var/swap.1
 1024表示1GB, 要增大的话改变数字即可. 注意, 这一部分比正常内存要慢得多, 重启后会还原.  
 要想改为默认设置, 即重启后也有效, 在`/etc/fstab`中加入这一句(不推荐)
 ```
-/var/swap.1   swap    swap    defaults        0   0
+/var/swap.1 swap swap defaults 0 0
+```
+
+
+## 利用dos2unix将Windows中文件转换为可在Unix中执行
+由于windows会自动给文本后面加换行符, 需要利用dos2unix对从各种.sh文件进行转换
+安装:  
+```
+apt-cyg install dos2unix
+dos2unix setup_t2.sh
+dos2unix setup_instance.sh
+```
+使用:  
+```
+dos2unix file.sh
 ```

@@ -14,3 +14,4 @@ setup/fast-ai-remove.sh
 .idea/workspace.xml
 
 *.pyc
+*.pyc
