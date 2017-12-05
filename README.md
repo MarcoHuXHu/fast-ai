@@ -6,10 +6,11 @@ https://github.com/fastai/courses
 Files:
 http://files.fast.ai/data/
 
-## AWS上的环境设置
-对于Windows系统, 先安装cwgwin  
-For windows, install cygwin first(with wget), as many scripts are in bash instead of cmd  
+## 在AWS上运行的设置
 
+考虑到Mac和AWS的Linux命令行, 对于Windows系统, 先安装cwgwin, 省得在两种命令行中换来换去. 注意安装wget.  
+
+### 在本地安装aws-cli用于对AWS实例进行操作
 然后需要把python和pip装在cygwin下, 默认会把awscli安装在Windows的Anaconda Python下, 而不是我们想要的安装在Cygwind Python下. 这样执行aws命令会找不到scripts(aws executable can't be found).  
 
 方法如下:
@@ -24,6 +25,11 @@ wget https://bootstrap.pypa.io/get-pip.py
 python get-pip.py
 pip install awscli
 ```
+最后从Github上下载`aws-alias.sh`, 通过修改`.bashrc`使得每次启动bash都会自动载入这些alias, 就可以方便的运行, 关闭以及连接到实例了.
+
+### 运行setup.sh来配置实例
+
+从Github上下载安装用的脚步
 
 如果要免费试用的话, 记得把t2的instance由t2.xlarge改成t2.micro
 以及, 在aws-alias.sh中获取实例的alias: aws-get-t2命令中的xlarge改成micro
@@ -35,9 +41,11 @@ dos2unix setup_t2.sh
 dos2unix setup_instance.sh
 ```
 最后, 执行:  
-```bash setup_p2.sh```
+```
+bash setup_p2.sh
+```
 
-注意, 在AWS的console中, 记得把区域切换到Oregan(us-west-2), 否则看不到创建的instance的  
+注意, 在AWS的console中, 记得把区域切换到Oregan(us-west-2), 否则看不到创建的instance的.  
 
 ## 本地环境配置
 
