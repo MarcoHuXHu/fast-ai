@@ -113,6 +113,11 @@ functionName() {
 
 ### upzip -q: quiet模式, 不输出文件名
 
+### 使用tree来树状显示子目录
+先[安装](http://mama.indstate.edu/users/ice/tree/)
+使用```tree -d [dir]```来显示dir下所有的子目录.  
+使用```tree -L [n]```来显示第n层的所有子目录.  
+
 
 
 ## tmux:

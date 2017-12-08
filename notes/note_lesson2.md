@@ -7,6 +7,8 @@
 **贫穷的我最终还是选择了在本地跑, 不然光是数据和参数文件vgg16.h5就要花8刀/月**
 **是时候买GPU用来学(chi)习(ji)啦**
 
+
+
 ## [Universal Approximation Theorem](https://en.wikipedia.org/wiki/Universal_approximation_theorem)
 
 一个具有 有限的Neuron(神经元), 单层Hidden Layer 的 前馈(参数从输入层向输出层单向传播) 神经网络, 可以用来近似很多函数(欧几里德空间有界闭合子集上的连续函数)  
@@ -15,8 +17,6 @@
 
 ## Feedforward neural network 前馈神经网络
 节点间连接无环的人工神经网络, 信息从输入层向输出层单相传播
-
-
 
 ### Learning Techniques:  
 神经网络利用训练集不断优化自身节点间权重, 最终收敛到误差足够小的状态.  此时神经网络习得目标函数.
