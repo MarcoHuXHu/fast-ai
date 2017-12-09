@@ -33,6 +33,7 @@ pip install awscli
 
 如果要免费试用的话, 记得把t2的instance由t2.xlarge改成t2.micro
 以及, 在aws-alias.sh中获取实例的alias: aws-get-t2命令中的xlarge改成micro
+**然而免费的t2.micro并不能运行Dogs vs Cats, 因为对于vgg16来说, t2.mirco实例的内存太小了, 需要切换到GPU或者t2.xlarge来运行.**
 
 最后, 由于window会自动给文本后面加换行符, 需要利用dos2unix对从github上得到的.sh文件进行转换
 ```
@@ -46,6 +47,8 @@ bash setup_p2.sh
 ```
 
 注意, 在AWS的console中, 记得把区域切换到Oregan(us-west-2), 否则看不到创建的instance的.  
+
+
 
 ## 本地环境配置
 

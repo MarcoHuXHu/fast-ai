@@ -2,13 +2,6 @@
 
 ### 养成一个好的习惯: Train和Test的数据分开, Train完成前不去看Test的数据, 保持真实性
 
-### Dogs vs Cats运行不了, 因为对于vgg16来说, t2.mirco实例的内存太小了, 需要切换到GPU或者t2.xlarge来运行.
-**果然, 切换到xlarge就可以运行了, 贫穷限制了我的想象**
-**贫穷的我最终还是选择了在本地跑, 不然光是数据和参数文件vgg16.h5就要花8刀/月**
-**是时候买GPU用来学(chi)习(ji)啦**
-
-
-
 ## [Universal Approximation Theorem](https://en.wikipedia.org/wiki/Universal_approximation_theorem)
 
 一个具有 有限的Neuron(神经元), 单层Hidden Layer 的 前馈(参数从输入层向输出层单向传播) 神经网络, 可以用来近似很多函数(欧几里德空间有界闭合子集上的连续函数)  
