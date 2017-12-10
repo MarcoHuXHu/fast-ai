@@ -15,3 +15,5 @@ setup/fast-ai-remove.sh
 
 *.pyc
 *.pyc
+
+codes/.ipynb_checkpoints/lesson1-checkpoint.ipynb
