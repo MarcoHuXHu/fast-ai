@@ -17,3 +17,5 @@ setup/fast-ai-remove.sh
 *.pyc
 
 codes/.ipynb_checkpoints/lesson1-checkpoint.ipynb
+
+mycodes/.ipynb_checkpoints/dogscats-checkpoint.ipynb
