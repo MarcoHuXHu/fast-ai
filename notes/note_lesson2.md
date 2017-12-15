@@ -13,7 +13,7 @@
 ## 多层感知器Multi-Layer Perceptron(MLP)
 
 前馈神经网络的一种, 包含至少三层神经节点(输入层, 输出层, 和至少一层隐藏层(hidden layer)). 除了输入节点外, 每个节点都使用非线性激活函数. MLP利用反向传播来训练. 注意与自然语言处理Natural Language Processing(NLP) 相区别.  
-MLP是fully connected, 即其中任意节点, 都与下一层的每一个节点有连接, 权重为w<sub>ij<sub>.  
+MLP是fully connected, 即其中任意节点, 都与下一层的每一个节点有连接, 权重为w<sub>ij</sub>.  
 
 ### 激活函数Activation function 
 节点的激活函数确定了给定的输入或输入集下, 节点的输出. 如果激活函数都为线性, 则任意多层神经节点都可以优化成两层(input-output). 故而多层感知器一定是非线性激活函数, 比如sigmoid(S函数).  
