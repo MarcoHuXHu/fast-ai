@@ -89,3 +89,11 @@ c.NotebookApp.port = 8888
 
 ### Jupyter Notebook与防火墙的战斗
 学习中发现, Jupyter Notebook可以在Mac上运行, 甚至可以在iPhone上运行, 然而在Windows上却不行. 防火墙也全部关掉了. 看来是杀毒软件的问题. 不过好像利用https来连接的话就可以执行了诶.
+
+
+
+## Keras
+Keras是一个高层神经网络API, Keras由纯Python编写而成并基Tensorflow, Theano以及CNTK后端.  
+
+**本课程使用的是Keras-1.2.2, 注意不要更新, 如果更新了, 使用一下命令还原到1.2.2版本:**  
+```pip install 'keras<2'```
