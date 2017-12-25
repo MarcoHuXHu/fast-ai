@@ -95,5 +95,11 @@ c.NotebookApp.port = 8888
 ## Keras
 Keras是一个高层神经网络API, Keras由纯Python编写而成并基Tensorflow, Theano以及CNTK后端.  
 
-**本课程使用的是Keras-1.2.2, 注意不要更新, 如果更新了, 使用一下命令还原到1.2.2版本:**  
-```pip install 'keras<2'```
+**本课程使用的是Keras-1.2.2, Theano0.8.2, 注意不要更新, 如果更新了, 使用一下命令还原到1.2.2版本:**  
+```
+pip install 'keras<2'
+conda install 'theano<0.9'
+```
+
+**OSX要先安装xcode命令行, 否则会报stdio.h file not found的错误**
+```xcode-select --install```
