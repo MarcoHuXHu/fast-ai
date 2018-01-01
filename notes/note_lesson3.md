@@ -53,3 +53,8 @@ X^{'}_{i,j} =
 $
 
 
+### Convolutional Neural Network
+猜测:
+比如线性层就是矩阵乘法, 卷积层就是对图像矩阵, 做filter的卷积, filter的数目就相当于矩阵的列数目
+
+Vgg16的各类Block->Keras的ZeroPadding, Convolution2D, MaxPooling2D
