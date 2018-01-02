@@ -60,9 +60,14 @@ $
 Vgg16的各类Block->Keras的ZeroPadding, Convolution2D, MaxPooling2D
 
 
-Softmax
+### Softmax
+$$
+P(x_{j}) = \frac{e^{x_{j}}}{\sum_{i=1}^{n}e^{x_i}}
+$$
 
 
+### Dropout
+随机抛弃一些Activation, 防止过拟合
 
 
-### finetune
+当数据不足是, 通过对训练数据的图片进行平移, 旋转, 翻转等操作(shuffle=True)产生更多训练集数据, 而验证数据不应该被改变
