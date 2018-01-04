@@ -53,12 +53,19 @@ X^{'}_{i,j} =
 $
 
 
-### Convolutional Neural Network
+## Keras中的卷积层与相关概念
 猜测:
 比如线性层就是矩阵乘法, 卷积层就是对图像矩阵, 做filter的卷积, filter的数目就相当于矩阵的列数目
 
-Vgg16的各类Block->Keras的ZeroPadding, Convolution2D, MaxPooling2D
+### Convolution2D
 
+
+### MaxPooling2D:
+**池化Pooling**: 把卷积特征划分成为m\*n个x\*y大小的不相交区域, 计算区域上特征的最大值(MaxPooling), 或者平均值, 作为Pooling后的卷积特征. Pooling后的卷积特征矩阵变成m*n的形状.
+比如在vgg16中, 利用```model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))```来进行Pooling, 这样下一层的特征矩阵就会在x, y方向都变为原来的一半. (strides: 步长值, 若小于pool_size则Pooling区域会相交)
+
+### ZeroPadding2D:
+对2D输入（如图片）的边界填充0，以控制卷积以后特征图的大小
 
 ### Softmax
 $$
@@ -70,6 +77,7 @@ $$
 随机抛弃一些Activation, 防止过拟合
 
 
+### Data 
 当数据不足是, 通过对训练数据的图片进行平移, 旋转, 翻转等操作(shuffle=True)产生更多训练集数据, 而验证数据不应该被改变
 
 ### Batch Regulazation
