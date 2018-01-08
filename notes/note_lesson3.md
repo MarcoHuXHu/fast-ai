@@ -80,9 +80,11 @@ Dropout将在训练过程中每次更新参数时按一定概率（rate）随机
 
 
 ### MaxPooling池化层:
-**池化Pooling**: 把卷积特征划分成为m\*n个x\*y大小的不相交区域, 计算区域上特征的最大值(MaxPooling), 或者平均值, 作为Pooling后的卷积特征. Pooling后的卷积特征矩阵变成m*n的形状.
-比如在vgg16中, 利用```model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))```来进行Pooling, 这样下一层的特征矩阵就会在x, y方向都变为原来的一半. (strides: 步长值, 若小于pool_size则Pooling区域会相交)
+**池化Pooling**: 把卷积特征划分成为m\*n个x\*y大小的不相交区域, 计算区域上特征的最大值(MaxPooling), 或者平均值, 作为Pooling后的卷积特征. Pooling后的卷积特征矩阵变成m*n的形状.  
 
+比如在vgg16中, 利用```model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))```来进行Pooling, 这样下一层的特征矩阵就会在x, y方向都变为原来的一半. (strides: 步长值, 若小于pool_size则Pooling区域会相交).  
+
+为了不让信息在Pooling的过程中损失太多, 通常会在Pooling后加入更多的filter. 如vgg中的filter数量在Pooling之后翻倍(64, 128, 256).
 
 
 ### Convolution卷积层
@@ -105,15 +107,20 @@ Dropout将在训练过程中每次更新参数时按一定概率（rate）随机
 
 
 
+## 其他
+-----
+
 ### Softmax
 $$
 P(x_{j}) = \frac{e^{x_{j}}}{\sum_{i=1}^{n}e^{x_i}}
 $$
-对Output进行修饰, 使得所有概率和为1, 且概率较大的更接近1, 概率较小的更接近0
+Activation的一种, 用于最后一层, 对Output进行修饰, 使得所有概率和为1, 且概率最高的接近1, 其余概率较小的接近0, 以接近于One-Hot编码的标签. 而且对于Output为负数的情况, 比使用绝对值更加合理.
 
 
 
 ### Data Augmentation
 当数据不足时, 通过对训练数据的图片进行平移, 旋转, 翻转等操作(shuffle=True)产生更多训练集数据, 而验证数据不应该被改变
+
+
 
 ### Batch Regulazation
