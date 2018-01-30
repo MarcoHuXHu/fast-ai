@@ -152,4 +152,6 @@ mnist是keras里面就有的一个数据集, 直接导入就可以下载并以nu
 
 1. 要记得在输入的数据中加入一个维度, 这是因为卷积层会把HGB通道作为一个维度, 而mnist是单色的, 所以要加入这一个维度, 且大小为1. (RGB则为3)
 
-2. Batch Normalization中等axis, 默认状态下为-1, 对于图像识别, 要设置为表示色彩通道的axis.
+2. Batch Normalization中等axis, 默认状态下为-1, 对于图像识别, 要设置为表示色彩通道的axis(对于Theano.
+
+**然而现在发现xjb设置axis也不会有太多影响, 反而只要一修改Adam的lr就会出问题**
