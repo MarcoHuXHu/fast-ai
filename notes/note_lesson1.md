@@ -1,7 +1,13 @@
 # 第一课 熟悉环境与工具
 
 ## Google Cloud
-目前是免费提供GPU给用, 感动坏了
+Google的Colaboratory目前是免费提供GPU给用, 感动坏了.
+
+不过不像AWS, Google Cloud只提供计算功能, 虚拟机关机就没数据了, 所以运行之前要重新安装各种库.
+预装了python(2.7/3.6), pip, apt-get这些基本工具, 当然还有自家的TensorFlow.
+
+
+
 
 
 
