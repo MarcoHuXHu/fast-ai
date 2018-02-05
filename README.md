@@ -1,5 +1,11 @@
 # fast-ai
 ## 一些链接:
+Wiki:
+http://wiki.fast.ai/index.php/Main_Page
+
+Note:
+http://wiki.fast.ai/index.php/Course_notes
+
 Git Repo: 
 https://github.com/fastai/courses
 
