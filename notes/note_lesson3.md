@@ -72,6 +72,8 @@ output = activation(dot(input, kernel)+bias). 即对输入的张量与权重矩�
 
 其中activation是逐元素计算的激活函数，kernel是本层的权值矩阵，bias为偏置向量，只有当use_bias=True才会添加.
 
+Dense层的参数个数为input(上一层output)节点数 * output节点数
+
 
 
 ### Dropout
@@ -96,6 +98,10 @@ Dropout将在训练过程中每次更新参数时按一定概率（rate）随机
 
 首先, 利用ZeroPadding给图像边界填充0, 方便卷积.  
 然后, 把filter对图像做卷积, 突出特征(比如MNIST例子中, Top filter会突出顶边).  
+
+注意, 如果第一层有x个filter, 则下一层每一个filter都是一个张量, 每个filter有x个filter. 即如果filter的大小是3*3, 则之后的filter都会是3\*3\*前一层filter个数的张量, 该层的output为上一层所有filter的output与这一层对应filter做卷积, 再相加的和.
+比如mnist中第一二层卷积层, 各加入了32个filter, 所以第一层的参数个数为: `3 * 3 * 32 + 32 = 320`, 第二次参数的个数为: ` 3 * 3 * 32 * 32 + 32 = 9248`. 加的这个32, 与`Dense层参数 = input * output + x`中的x的意义有疑问, 也许是Batch Normalization引入的?
+
 接着, 对突出了特征的矩阵做Pooling, 一来可以选择区域中最有特点的部分(MaxPooling), 二来可以减小特征矩阵. 从而减少运算量, 并防止过拟合.  
 最后, 利用反向传播和梯度下降, 来优化filter.  
 
