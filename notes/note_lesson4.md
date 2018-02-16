@@ -43,3 +43,4 @@ Adam则是在RMSProp的基础上加入了gradient momentum, 即gradient的平均
 #### Eve 
 
 像Adam, RMSProp这些是设定初始lr. (估计第三课中Adam设置lr=0.1会导致失败就是lr太大导致无法优化). 训练模型的时候会先设置一个较大的lr, 在逐渐调小lr, 使得模型更加精确(Learning rate annealing)
+
