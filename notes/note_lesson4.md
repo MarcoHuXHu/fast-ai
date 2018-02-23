@@ -33,6 +33,7 @@ Learning Rate决定了参数在梯度下降时随导数变化的大小. 一般SG
 
 动态学习率即综合这两点, 在许多优化器中得到应有, 比如:
 
+### 各类Optimizer
 #### Adagrad
 Adagrad基于参数方向之前的梯度来调整lr, 梯度大则lr小, 反之亦然. 具体为: 对之前的梯度值求平方和再开方(记作: lr2-norm), 下一个epoch的lr为当前lr除以lr2-norm.
 ```
@@ -40,19 +41,17 @@ lr(n+1) = lr(n) / (sqrt(sum(d(i) * d(i)))  / m)      当前为第n个epoch, d(i)
 ```
 由于lr2-norm单调递增, 即lr(n+1)/lr(n)单调递减. 可以看出Adagrad是基于这样一个假设: 损失函数在某个参数方向上调整的路径越长, 在该方向越接近最优值, lr变化越小. 然而这样还是不能避免lr太大而逐渐跳出最优区域. 另一个问题就是维护所有参数每步的梯度则开销很大.
 
---当遇到loss比较平坦这样的情况可能lr就会越来越小然后消耗大量时间. 而同时维护所有参数每步的梯度则开销很大.
-
 #### RMSProp
 RMSProp是对Adagrad的改进, 在对梯度求平方和的时候会乘以一个权重(就像gradient momentum那样, 之前的平方和乘以0.9, 新的平方乘以0.1; 然而RMSProp并未在调整参数的时候使用梯度的平均值, 使用了的是Adam). 称为加权移动平均值. 这样越早期的梯度对更新lr的影响越小. 从而运行损失函数在最优点附近移动而不至于跳出去.  
 更重要的是, RMSProp在一次epoch的每一步都会使用修改后的lr, 即每一步都会使用当前epoch设定的lr, 除以加权移动平均值, 这样lr的调整就会更加连续.  
---而由于指数权重的作用, 即使梯度已经很小了, 对于lr的改变不会太小, 从而避免在loss比较平坦的地方移动太慢.
 
 #### Adam
 Adam则是在RMSProp的基础上同时使用了gradient momentum, 即gradient的平均值来优化参数(momentum); 使用加权移动平均值来优化计算每一步优化参数时所使用的lr.    
-像Adam, RMSProp这些是在每一个epoch设定初始lr, 每一步使用计算得到的lr来优化参数. . 训练模型的时候会先设置一个较大的lr, 在逐渐调小lr, 使得模型更加精确(Learning rate annealing). PS: 估计第三课中Adam设置lr=0.1会导致失败就是lr太大导致无法优化.
+像Adam, RMSProp这些是在每一个epoch设定初始lr, 每一步使用计算得到的lr来优化参数. . 训练模型的时候会先设置一个较大的lr, 在逐渐调小lr, 使得模型更加精确(Learning rate annealing). 
 
 #### Eve 
 Eve是对于Adam的补充, 在每个epoch之后调整lr来自动完成Learning rate annealing. 既可能减小lr, 也可能增大lr. Eve会比较最终梯度的平方和的变化情况, 如果变化很小, 说明loss函数在这个epoch的路程很平坦, 可以增大lr; 如果变化剧烈, 则说明需要减小lr. 然而Eve可能的问题是: 当快接近最优区间时, Eve可能在一个epoch减小lr, 在下一个epoch又增加了lr.
 
-
+### 初始lr设定
+可以先选一个sample, 如果lr跟随机选择的正确率差不多(比如mnist有10个class, accuracy约为0.1), 这就说明lr可能太大了. 当lr设定到正确率明显高于随机, 则可以考虑调大lr. 第三课中Adam设置lr=0.1会导致怎么训练都是随机结果就是lr太大导致无法优化.
 
