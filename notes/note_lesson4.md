@@ -63,4 +63,5 @@ Eve是对于Adam的补充, 在每个epoch之后调整lr来自动完成Learning r
 使用预先训练过的模型. 由于CNN里面, 卷积层在训练的时候消耗的时间最多. 而卷积层的作用是识别图中的特征, 像ImageNet, Vgg16这些模型的卷积层已经被利用大量数据训练得足够好. 所以很多问题完全可以使用这些模型的卷积层, 而重点对之后的Dense 层训练.  
 使用时把比如Vgg16的卷积层包括进来, 然后predict出数据的feature, 得到一个numpy array. 这样还可以保存到本地, 下次使用直接载入.  
 注意使用Pre-Trained的模型就不可以使用data-argumentation了. 因为data-argumentation每次会随机给输入的图片加入旋转等参数, 得到feature之后, 训练Dense层的data-argumentation对于图片的改变是不同的. 正确的data-argumentation做法是对数据集进行改变, 利用旋转缩放等方法把训练数据扩大.  
+而如果想要验证这个问题的关键是在Dense层而非Conv层, 可以在运行几个epoch后, 把Conv层设置为trainable, 然后看看会不会对于精度有影响. 如果无影响则说明判断正确, 可以只用关心Dense层.  
 
