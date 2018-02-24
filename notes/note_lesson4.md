@@ -52,6 +52,15 @@ Adam则是在RMSProp的基础上同时使用了gradient momentum, 即gradient的
 #### Eve 
 Eve是对于Adam的补充, 在每个epoch之后调整lr来自动完成Learning rate annealing. 既可能减小lr, 也可能增大lr. Eve会比较最终梯度的平方和的变化情况, 如果变化很小, 说明loss函数在这个epoch的路程很平坦, 可以增大lr; 如果变化剧烈, 则说明需要减小lr. 然而Eve可能的问题是: 当快接近最优区间时, Eve可能在一个epoch减小lr, 在下一个epoch又增加了lr.
 
+
+
 ### 初始lr设定
 可以先选一个sample, 如果lr跟随机选择的正确率差不多(比如mnist有10个class, accuracy约为0.1), 这就说明lr可能太大了. 当lr设定到正确率明显高于随机, 则可以考虑调大lr. 第三课中Adam设置lr=0.1会导致怎么训练都是随机结果就是lr太大导致无法优化.
+
+
+
+### Pre-Trained Model
+使用预先训练过的模型. 由于CNN里面, 卷积层在训练的时候消耗的时间最多. 而卷积层的作用是识别图中的特征, 像ImageNet, Vgg16这些模型的卷积层已经被利用大量数据训练得足够好. 所以很多问题完全可以使用这些模型的卷积层, 而重点对之后的Dense 层训练.  
+使用时把比如Vgg16的卷积层包括进来, 然后predict出数据的feature, 得到一个numpy array. 这样还可以保存到本地, 下次使用直接载入.  
+注意使用Pre-Trained的模型就不可以使用data-argumentation了. 因为data-argumentation每次会随机给输入的图片加入旋转等参数, 得到feature之后, 训练Dense层的data-argumentation对于图片的改变是不同的. 正确的data-argumentation做法是对数据集进行改变, 利用旋转缩放等方法把训练数据扩大.  
 
