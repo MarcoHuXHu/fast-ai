@@ -53,9 +53,15 @@ Adam则是在RMSProp的基础上同时使用了gradient momentum, 即gradient的
 Eve是对于Adam的补充, 在每个epoch之后调整lr来自动完成Learning rate annealing. 既可能减小lr, 也可能增大lr. Eve会比较最终梯度的平方和的变化情况, 如果变化很小, 说明loss函数在这个epoch的路程很平坦, 可以增大lr; 如果变化剧烈, 则说明需要减小lr. 然而Eve可能的问题是: 当快接近最优区间时, Eve可能在一个epoch减小lr, 在下一个epoch又增加了lr.
 
 
+## 实践部分
 
-### 初始lr设定
-可以先选一个sample, 如果lr跟随机选择的正确率差不多(比如mnist有10个class, accuracy约为0.1), 这就说明lr可能太大了. 当lr设定到正确率明显高于随机, 则可以考虑调大lr. 第三课中Adam设置lr=0.1会导致怎么训练都是随机结果就是lr太大导致无法优化.
+### 利用sample来设定参数
+一些人为设定的参数, 比如lr, dropout, 是与模型相关的, 而非随着训练而改变. 因此可以先选一个sample, 来找出这些参数比较合理的值.  
+比如对于lr: 如果lr跟随机选择的正确率差不多(比如mnist有10个class, accuracy约为0.1), 这就说明lr可能太大了. 当lr设定到正确率明显高于随机, 则可以考虑调大lr. PS: 第三课中Adam设置lr=0.1会导致怎么训练都是随机结果就是lr太大导致无法优化.
+
+
+### 简单的Batch Normalization
+相对于上一课mnist中手动对输入数据进行normalization, 可以在模型的第一层就放置batch-normalization, 这样就可以起到作用了.
 
 
 
