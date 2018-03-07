@@ -58,12 +58,17 @@ Anaconda是一个科学计算Python环境, 集成了常用的各种包.
 
 ### 卸载:
 由于很多库已经不对python2提供更新了, theano也不动了, 所以我们更新到Anaconda3. 首先使用以下命令清理Anaconda的配置.
+#### Mac卸载
 ```
 conda install anaconda-clean
 anaconda-clean --yes
 ```
 然后直接`sudo rm -rf ~/anaconda`就可以删除了.  
 最后Anaconda会把配置文件备份到`~/.anaconda_backup`, 也删掉.
+
+#### Win卸载
+Windows直接运行anaconda目录下的uninstall可以卸载干净.
+
 
 
 ## Jupyter Notebook
