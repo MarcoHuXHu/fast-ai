@@ -66,6 +66,7 @@ anaconda-clean --yes
 最后Anaconda会把配置文件备份到`~/.anaconda_backup`, 也删掉.
 
 
+
 ## Jupyter Notebook
 
 一款类似于学习笔记的工具, 将markdown与code结合在一起, 可以一边记笔记一边跑代码, 同时还可以生成和插入图表
