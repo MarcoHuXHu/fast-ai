@@ -106,7 +106,10 @@ Movielens的dataset中选择n个用户, 对m部电影的评分(没有评分记�
 ```
 keras.layers.embeddings.Embedding(input_dim, output_dim, embeddings_initializer='uniform', embeddings_regularizer=None, activity_regularizer=None, embeddings_constraint=None, mask_zero=False, input_length=None)
 ```
-
+常用参数:  
+input_dim: 大或等于0的整数, 字典长度, 即输入数据最大下标+1. 比如Movielens中, User的Id为1-n, 则input_dim=n.  
+output_dim: 大于0的整数, 代表全连接嵌入的维度. 在Movielens中, 我们对每个User和Movie都设置50个latetn factor, 所以这里output_dim=50.  
+input_length: 当输入序列的长度固定时, 该值为其长度. 注意如果要在该层后接Flatten层, 然后接Dense层, 则必须指定该参数, 否则Dense层的输出维度无法自动推断. 比如Movielens输入的是UserId/MovieId, 都是一个整数, 所以input_length=1; IMdbs输入的是长度为500的句子, 所以input_length=500.  
 
 
 ### 函数式模型API
