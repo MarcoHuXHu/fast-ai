@@ -12,8 +12,16 @@
 ```trn = sequence.pad_sequences(trn, maxlen=seq_len, value=0)```
 可以对向量进行截断, 短的在左边补0.
 
-#### 模型输入
+#### 建立模型
+以Embedding作为第一层, 对输入的句子进行转化. 其中vocab_size=5000, 词典(选用高频词后)大小, 32为latent factors的数目, seq_len=500, 代表每个句子的长度. 
 ```
 Embedding(vocab_size, 32, input_length=seq_len)
 ```
-其中vocab_size=5000, 词典(选用高频词后)大小, 32为latent factors的数目, seq_len=500, 代表每个句子
+然后可以Flatten加Dense层做一个简单的神经网络, 也可以利用卷积神经网络. 方法如下:
+```
+Convolution1D(64, 5, padding='same', activation='relu) #新版本里面padding相当于border_mode
+```
+这个卷积层由64个filter组成, 每个filter为5*32. 这是因为这里每个latent factor相当于彩色图片的一个颜色通道.
+
+#### 预训练模型
+就像利用Vgg16来识别猫狗一样, 可以利用预先训练好的单词的Embedding向量. 而且不像图像识别中的预训练模型, 如果finetune和后续predict使用过程中使用的图片(比如狗的图片)和模型训练时候使用的有很大不同, 模型会不能很好的工作. 而单词则不会出现这样的问题. 不过如果语料库单一的话可能还是会有问题吧.
