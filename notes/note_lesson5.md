@@ -25,3 +25,5 @@ Convolution1D(64, 5, padding='same', activation='relu) #新版本里面padding�
 
 #### 预训练模型
 就像利用Vgg16来识别猫狗一样, 可以利用预先训练好的单词的Embedding向量. 而且不像图像识别中的预训练模型, 如果finetune和后续predict使用过程中使用的图片(比如狗的图片)和模型训练时候使用的有很大不同, 模型会不能很好的工作. 而单词则不会出现这样的问题. 不过如果语料库单一的话可能还是会有问题吧.
+
+由于预编译模型(glove)中单词的index与IMDB不同, 因此还需要进行转换, 从中挑选IMDB中需要的Embeddings, IMDB中有的而glove中没有的Embeddings, 则随机初始化. 训练时注意一开始要把Embeddings层设置为不可训练, 等到模型稳定下来, 在设置为可训练进行微调.
