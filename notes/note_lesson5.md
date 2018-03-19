@@ -26,4 +26,9 @@ Convolution1D(64, 5, padding='same', activation='relu) #新版本里面padding�
 #### 预训练模型
 就像利用Vgg16来识别猫狗一样, 可以利用预先训练好的单词的Embedding向量. 而且不像图像识别中的预训练模型, 如果finetune和后续predict使用过程中使用的图片(比如狗的图片)和模型训练时候使用的有很大不同, 模型会不能很好的工作. 而单词则不会出现这样的问题. 不过如果语料库单一的话可能还是会有问题吧.
 
-由于预编译模型(glove)中单词的index与IMDB不同, 因此还需要进行转换, 从中挑选IMDB中需要的Embeddings, IMDB中有的而glove中没有的Embeddings, 则随机初始化. 训练时注意一开始要把Embeddings层设置为不可训练, 等到模型稳定下来, 在设置为可训练进行微调.
+由于预编译模型(glove)中单词的index与IMDB不同, 因此还需要进行转换, 从中挑选IMDB中需要的Embeddings, IMDB中有的而glove中没有的Embeddings, 则随机初始化. 训练时注意一开始要把Embeddings层设置为不可训练, 等到模型稳定下来, 再设置为可训练进行微调.
+
+
+
+### 单词Embeddings的无监督训练
+对于像[Word2Vec](https://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf). 其中一个方法是: 取一个11个词长的句子A, 把中间的单词随机换成词库中的任意一个, 得到句子B. 这样句子A是有实际意义的, 而句子B没有. 这样就可以得到有意义(1)和无意义(0)两个标签的训练数据. 对整个语料库都使用这样的方法, 就相当于有训练集可以训练了. 
