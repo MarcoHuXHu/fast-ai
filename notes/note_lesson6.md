@@ -26,3 +26,40 @@ Input0 → Matrix1 → Matrix2 → ... Matrix(n) → Output
 
 
 ### RNN实例: 文本预测
+本例通过分析文本, 根据之前出现的字母来推测下一个出现的字母, 从而模仿原文本生成新的语句
+
+#### 模型1: 自行搭建的简单RNN
+cs表示一个循环内接受的字符个数.  
+输入输出数据:
+```
+c_in_dat = [[idx[i+n] for i in xrange(0, len(idx)-1-cs, cs)] for n in range(cs)]
+c_out_dat = [idx[i+cs] for i in xrange(0, len(idx)-1-cs, cs)]
+```
+模型输入:
+```
+def embedding_input(name, n_in, n_out):
+    inp = Input(shape=(1,), dtype='int64', name=name+'_in')
+    emb = Embedding(n_in, n_out, input_length=1, name=name+'_emb')(inp)
+    return inp, Flatten()(emb)
+c_ins = [embedding_input('c'+str(n), vocab_size, n_fac) for n in range(cs)]
+# c_ins[0]为输入, c_ins[1]为对应的Embedding
+```
+构建三种箭头分别表示的运算:
+```
+dense_in = Dense(n_hidden, activation='relu') # 从Input到Hidden
+dense_hidden = Dense(n_hidden, activation='relu', init='identity') # 从 Hidden到Hidden
+dense_out = Dense(vocab_size, activation='softmax') # 从Hidden到Output
+# init='identity' 由于hidden层要循环cs次, 初始化误差太大会导致无法优化. 
+# 以单位矩阵初始化Dense层, 使得模型未训练时能保证输入与输出一致
+```
+模型组合并训练:
+```
+for i in range(1,cs):
+    c_dense = dense_in(c_ins[i][1])
+    hidden = dense_hidden(hidden)
+    hidden = merge([c_dense, hidden]) # 默认以加法merge
+c_out = dense_out(hidden)
+model = Model([c[0] for c in c_ins], c_out)
+model.compile(loss='sparse_categorical_crossentropy', optimizer=Adam())
+model.fit(xs, y, batch_size=64, nb_epoch=12)
+```
