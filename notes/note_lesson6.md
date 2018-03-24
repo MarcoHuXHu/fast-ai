@@ -28,7 +28,8 @@ Input0 → Matrix1 → Matrix2 → ... Matrix(n) → Output
 ### RNN实例: 文本预测
 本例通过分析文本, 根据之前出现的字母来推测下一个出现的字母, 从而模仿原文本生成新的语句
 
-#### 模型1: 自行搭建的简单RNN
+#### 模型1: 单输出的RNN
+##### 自行搭建的简单RNN
 cs表示一个循环内接受的字符个数.  
 输入输出数据:
 ```
@@ -63,3 +64,17 @@ model = Model([c[0] for c in c_ins], c_out)
 model.compile(loss='sparse_categorical_crossentropy', optimizer=Adam())
 model.fit(xs, y, batch_size=64, nb_epoch=12)
 ```
+##### 使用Keras
+Keras将RNN封装成一个layer, 这样使用一个Embedding-RNN-Dense的序贯模型就行了
+```
+model=Sequential([
+        Embedding(vocab_size, n_fac, input_length=cs),
+        SimpleRNN(n_hidden, activation='relu', inner_init='identity'),
+        Dense(vocab_size, activation='softmax')
+    ])
+```
+这里Embedding前两个参数与之前相同, 然而不同于手动建模, 为了配合RNN, input_length不再是1(代表输入一个字母), 而是cs(代表输入cs个字母).
+
+
+#### 输出序列的RNN
+以上模型会传入cs-1个字母作为input, 而第cs个作为output. 但是这样RNN实际上对这cs-1个字母每个都有一个output, 而这些output也是可以跟原文对照来帮助训练的, 因此对模型做如下修改:
