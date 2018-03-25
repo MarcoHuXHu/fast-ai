@@ -6,6 +6,7 @@ Google的Colaboratory目前是免费提供GPU给用, 感动坏了.
 不过不像AWS, Google Cloud只提供计算功能, 虚拟机关机就没数据了, 所以运行之前要重新安装各种库.
 预装了python(2.7/3.6), pip, apt-get这些基本工具, 当然还有自家的TensorFlow.
 
+### 2018版本
 **安装pytorch**, 考虑到更新, 这个命令可以去[官网](http://pytorch.org/)上获得, CUDA选择8.0
 ```
 !pip3 install http://download.pytorch.org/whl/cu80/torch-0.3.1-cp36-cp36m-linux_x86_64.whl 
@@ -17,6 +18,11 @@ Google的Colaboratory目前是免费提供GPU给用, 感动坏了.
 ```
 虽然每次都要重装, 而且预训练模型的参数要重新载入, 但是考虑到40mb/s的网速, 不到一分钟就可以把环境配置好了呢~
 
+### 2016版本
+旧版本只用装上keras就好了, 注意是旧版keras
+```
+!pip install 'keras<2'
+```
 
 
 ## AWS

@@ -35,6 +35,8 @@ cs表示一个循环内接受的字符个数.
 ```
 c_in_dat = [[idx[i+n] for i in xrange(0, len(idx)-1-cs, cs)] for n in range(cs)]
 c_out_dat = [idx[i+cs] for i in xrange(0, len(idx)-1-cs, cs)]
+xs = [np.stack(c[:-2]) for c in c_in_dat]
+y = np.stack(c_out_dat[:-2])
 ```
 模型输入:
 ```
@@ -73,8 +75,18 @@ model=Sequential([
         Dense(vocab_size, activation='softmax')
     ])
 ```
-这里Embedding前两个参数与之前相同, 然而不同于手动建模, 为了配合RNN, input_length不再是1(代表输入一个字母), 而是cs(代表输入cs个字母).
-
+这里Embedding前两个参数与之前相同, 然而不同于手动建模, 为了配合RNN, input_length不再是1(代表输入一个字母), 而是cs(代表输入cs个字母).  
+模型的编译和训练与自行搭建的模型是一样的, 
+```
+model.compile(loss='sparse_categorical_crossentropy', optimizer=Adam())
+model.fit(np.concatenate(xs,axis=1), y, batch_size=64, nb_epoch=8)
+```
 
 #### 输出序列的RNN
 以上模型会传入cs-1个字母作为input, 而第cs个作为output. 但是这样RNN实际上对这cs-1个字母每个都有一个output, 而这些output也是可以跟原文对照来帮助训练的, 因此对模型做如下修改:
+首先是训练用的输出会变成:
+```
+c_out_dat = [[idx[i+n] for i in xrange(1, len(idx)-cs, cs)] for n in range(cs)]
+# 注: input循环的下标是xrange(0, len(idx)-cs-1)
+```
+三种箭头表示的运算还是一样, 不过在组合模型上略有不同. 
