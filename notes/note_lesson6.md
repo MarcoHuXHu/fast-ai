@@ -89,4 +89,24 @@ model.fit(np.concatenate(xs,axis=1), y, batch_size=64, nb_epoch=8)
 c_out_dat = [[idx[i+n] for i in xrange(1, len(idx)-cs, cs)] for n in range(cs)]
 # 注: input循环的下标是xrange(0, len(idx)-cs-1)
 ```
-三种箭头表示的运算还是一样, 不过在组合模型上略有不同. 
+三种箭头表示的运算还是一样, 不过在组合模型上略有不同. 首先输入在循环中, 所以第一个Input到Hidden的输入使用零矩阵:
+```
+Inp1 = Input(shape=(n_fac,), name='zeros')
+hidden = dense_in(inp1)
+```
+而输出的是序列, 用一个list把每个输出连接起来:
+```
+outs = []
+for i in range(cs):
+    c_dense = dense_in(c_ins[i][1]) # 图2中Input向上箭头代表运算
+    hidden = dense_hidden(hidden)
+    hidden = merge([c_dense, hidden], mode='sum')
+    outs.append(dense_out(hidden))  # 输出序列特有的, 把输出连接在一起
+```
+组合并训练模型:
+```
+model = Model([inp1] + [c[0] for c in c_ins], outs)
+model.compile(loss='sparse_categorical_crossentropy', optimizer=Adam())
+zeros = np.tile(np.zeros(n_fac), (len(xs[0]),1))    # zeros.shape (75110, 42)
+model.fit([zeros]+xs, ys, batch_size=64, nb_epoch=12)
+```
