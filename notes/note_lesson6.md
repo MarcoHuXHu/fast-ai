@@ -83,6 +83,7 @@ model.fit(np.concatenate(xs,axis=1), y, batch_size=64, nb_epoch=8)
 ```
 
 #### 输出序列的RNN
+##### 自行搭建的模型
 以上模型会传入cs-1个字母作为input, 而第cs个作为output. 但是这样RNN实际上对这cs-1个字母每个都有一个output, 而这些output也是可以跟原文对照来帮助训练的, 因此对模型做如下修改:
 首先是训练用的输出会变成:
 ```
@@ -109,4 +110,17 @@ model = Model([inp1] + [c[0] for c in c_ins], outs)
 model.compile(loss='sparse_categorical_crossentropy', optimizer=Adam())
 zeros = np.tile(np.zeros(n_fac), (len(xs[0]),1))    # zeros.shape (75110, 42)
 model.fit([zeros]+xs, ys, batch_size=64, nb_epoch=12)
+```
+
+##### 利用Keras
+与单独输出的不同的地方在于:  
+1. SimpleRNN层的return_sequences参数设置为True
+2. 在Dense层外面用TimeDistributed()包围
+```
+model=Sequential([
+        Embedding(vocab_size, n_fac, input_length=cs),
+        SimpleRNN(n_hidden, return_sequences=True, activation='relu', inner_init='identity'),
+        TimeDistributed(Dense(vocab_size, activation='softmax')),
+    ])
+model.compile(loss='sparse_categorical_crossentropy', optimizer=Adam())
 ```
