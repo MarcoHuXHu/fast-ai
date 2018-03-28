@@ -109,7 +109,7 @@ for i in range(cs):
 model = Model([inp1] + [c[0] for c in c_ins], outs)
 model.compile(loss='sparse_categorical_crossentropy', optimizer=Adam())
 zeros = np.tile(np.zeros(n_fac), (len(xs[0]),1))    # zeros.shape (75110, 42)
-model.fit([zeros]+xs, ys, batch_size=64, nb_epoch=12)
+model.fit([zeros]+xs, ys, batch_size=64, nb_epoch=12) # 给每个训练集最开始加入零矩阵
 ```
 
 ##### 利用Keras
@@ -124,3 +124,8 @@ model=Sequential([
     ])
 model.compile(loss='sparse_categorical_crossentropy', optimizer=Adam())
 ```
+
+
+
+#### Stateful模型
+以上的RNN事实上只具有8个字母长度的“记忆”, fit的shuffle参数默认为True, 所以训练集会被打乱而只保留8个字母长度的顺序, 因此要保留State, 得吧shuffle设置为False. 另外, 每一组训练集的前面都加入了零矩阵, 事实上只需要给第一个训练集的前面加入零矩阵, 以后每组输入不需要加.
