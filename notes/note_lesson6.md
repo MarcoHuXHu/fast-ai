@@ -129,3 +129,9 @@ model.compile(loss='sparse_categorical_crossentropy', optimizer=Adam())
 
 #### Stateful模型
 以上的RNN事实上只具有8个字母长度的“记忆”, fit的shuffle参数默认为True, 所以训练集会被打乱而只保留8个字母长度的顺序, 因此要保留State, 得吧shuffle设置为False. 另外, 每一组训练集的前面都加入了零矩阵, 事实上只需要给第一个训练集的前面加入零矩阵, 以后每组输入不需要加.
+
+
+#### 梯度消失/爆炸 Gradient Vanishing/Exploding
+在Stateful模型中, 隐藏层的参数矩阵不像Unstateful只乘了8次, 而是乘了非常多次(取决于全文长度), 这就导致了:  
+梯度消失：如果相对于整个梯度的尺度而言, 某个梯度很小的话，乘上多次指数级下降，对输出几乎就没有影响了  
+梯度爆炸：反过来，如果梯度很大的话，乘上多次指数级增加，又导致了梯度爆炸  
