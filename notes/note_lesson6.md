@@ -135,3 +135,5 @@ model.compile(loss='sparse_categorical_crossentropy', optimizer=Adam())
 在Stateful模型中, 隐藏层的参数矩阵不像Unstateful只乘了8次, 而是乘了非常多次(取决于全文长度), 这就导致了:  
 梯度消失：如果相对于整个梯度的尺度而言, 某个梯度很小的话，乘上多次指数级下降，对输出几乎就没有影响了  
 梯度爆炸：反过来，如果梯度很大的话，乘上多次指数级增加，又导致了梯度爆炸  
+
+#### RNN叠加模型
