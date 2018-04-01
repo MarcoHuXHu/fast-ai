@@ -119,7 +119,10 @@ model.fit([zeros]+xs, ys, batch_size=64, nb_epoch=12) # 给每个训练集最开
 ```
 model=Sequential([
         Embedding(vocab_size, n_fac, input_length=cs),
+        # 在此设置return_sequences=True
         SimpleRNN(n_hidden, return_sequences=True, activation='relu', inner_init='identity'),
+        # Dense的Input是一维的, 而RNN的输出(None, cs, n_hidden), 
+        # TimeDistributed相当于把同样的矩阵参数, 复制cs份
         TimeDistributed(Dense(vocab_size, activation='softmax')),
     ])
 model.compile(loss='sparse_categorical_crossentropy', optimizer=Adam())
@@ -128,7 +131,21 @@ model.compile(loss='sparse_categorical_crossentropy', optimizer=Adam())
 
 
 #### Stateful模型
-以上的RNN事实上只具有8个字母长度的“记忆”, fit的shuffle参数默认为True, 所以训练集会被打乱而只保留8个字母长度的顺序, 因此要保留State, 得吧shuffle设置为False. 另外, 每一组训练集的前面都加入了零矩阵, 事实上只需要给第一个训练集的前面加入零矩阵, 以后每组输入不需要加.
+首先要把stateful设置成True. 另外, 以上的RNN事实上只具有8个字母长度的“记忆”, fit的shuffle参数默认为True, 所以训练集会被打乱而只保留8个字母长度的顺序, 因此要保留State, 得把shuffle设置为False. 再者, 每一组训练集的前面都加入了零矩阵, 事实上只需要给第一个训练集的前面加入零矩阵, 以后每组输入不需要加.  
+```
+model=Sequential([
+        Embedding(vocab_size, n_fac, input_length=cs, batch_input_shape=(bs,8)),
+        BatchNormalization(),
+        # 在此设置stateful=True
+        # 这里stateful的RNN难以被训练, 使用的LSTM会在下节课中
+        LSTM(n_hidden, return_sequences=True, stateful=True),
+        TimeDistributed(Dense(vocab_size, activation='softmax')),
+    ])
+model.compile(loss='sparse_categorical_crossentropy', optimizer=Adam())
+```
+需要注意的是, 每个epoch完成后, 需要使用`model.reset_states()`来重置模型的state.
+
+
 
 
 #### 梯度消失/爆炸 Gradient Vanishing/Exploding
