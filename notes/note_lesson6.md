@@ -164,3 +164,21 @@ model=Sequential([
 ```
 
 #### 使用One-Hot Encoding
+之前有说过Embedding实际上也可以通过One-Hot Encoding来实现, 这里进行这样的尝试. 注意之前模型在编译的时候都使用的是`sparse_categorical_crossentropy`作为损失函数, 这其实是Keras提供的能自动对输出进行One-Hot编码的一种损失函数. 所以修改后的模型出去去掉Embedding, 再就是修改loss参数:  
+```
+model=Sequential([
+        SimpleRNN(n_hidden, return_sequences=True, input_shape=(cs, vocab_size),
+                  activation='relu', inner_init='identity'),
+        TimeDistributed(Dense(vocab_size, activation='softmax')),
+    ])
+model.compile(loss='categorical_crossentropy', optimizer=Adam())
+```
+输入数据做以下调整:
+```
+oh_ys = [to_categorical(o, vocab_size) for o in ys]
+oh_y_rnn=np.stack(oh_ys, axis=1)        # shape: (75110, 8, 86)
+oh_xs = [to_categorical(o, vocab_size) for o in xs]
+oh_x_rnn=np.stack(oh_xs, axis=1)        # shape: (75110, 8, 86)
+
+model.fit(oh_x_rnn, oh_y_rnn, batch_size=64, nb_epoch=8)
+```
