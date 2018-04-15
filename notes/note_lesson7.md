@@ -12,6 +12,31 @@ R(H_t) = H_(t+1) - H_t
 ## Data Leakage
 有时候一些来自于输入, 但是又和实际应用无关的数据, 会大大提高模型的准确率. 比如在Fisheries中, 照片的长宽会与输出有很明显的关联. 照片的长款可以反映拍照的相机的类型, 从而与某一艘船对应起来, 而船只会在固定海域航行, 拍摄到的鱼的种类也与此相关, 因此模型通过学习照片的长宽就能很好的预测鱼的种类了. 然而这样建立出来的模型对于实际应用则没有太大帮助, 只要船上的相机与训练集不同, 就会导致很大偏差.
 
+### 加入Metadata的
+比如在Fiesheries中, 加入图片大小:  
+```
+# 预训练模型经过卷积层后的结果
+inp = Input(conv_layers[-1].output_shape[1:])
+
+# 图像的size经过batchnormalization
+sz_inp = Input((len(id2size),))
+bn_inp = BatchNormalization()(sz_inp)
+
+x = MaxPooling2D()(inp)
+x = BatchNormalization(axis=1)(x)
+x = Dropout(p/4)(x)
+x = Flatten()(x)
+x = Dense(512, activation='relu')(x)
+x = BatchNormalization()(x)
+x = Dropout(p)(x)
+x = Dense(512, activation='relu')(x)
+x = BatchNormalization()(x)
+x = Dropout(p/2)(x)
+
+# 将metadata合并入模型
+x = merge([x,bn_inp], 'concat')
+x = Dense(8, activation='softmax')(x)
+```
 
 ## Redundant Metadata
 事实上, 我们并不需要指定让模型学习Data Leakage的metadata, 模型也会自动学习这些特征. 因此我们就算给模型提供这些Metadata去学习, 也不会提高正确率. 这就是Redundant Metadata. 比如在之前的IMDB问题中, 即使给模型指定一些用户/电影的metadata去学习, 也不会提高正确率了.
